@@ -23,7 +23,7 @@ public class TodoController {
         return todos;
     }
 
-    @GetMapping("{id}")
+    @GetMapping("{id}")//get todo
     public Map<String, String> getOne(@PathVariable String id){
         return getTodo(id);
     }
@@ -35,7 +35,7 @@ public class TodoController {
                 .orElseThrow(NotFoundException::new);
     }
 
-    @PostMapping
+    @PostMapping//create todo
     public Map<String, String> create(@RequestBody Map<String, String> todo){
         todo.put("id", String.valueOf(count++));
 
@@ -43,8 +43,8 @@ public class TodoController {
 
         return todo;
     }
-//a
-    @PutMapping("{id}")
+
+    @PutMapping("{id}")//edit todo
     public Map<String, String> update(@PathVariable String id, @RequestBody Map<String, String> todo){
         Map<String, String> todoFromDb = getTodo(id);
 
@@ -55,7 +55,7 @@ public class TodoController {
         return todoFromDb;
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("{id}")//delte todo
     public void delete(@PathVariable String id){
         Map<String, String> todo = getTodo(id);
 
