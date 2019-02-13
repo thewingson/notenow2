@@ -1,6 +1,7 @@
 package com.almat.notenow.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -16,10 +17,38 @@ public class Todo {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH-mm-ss")
     private Long id;
+
     private String text;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User author;
 
     @Column(updatable = false)
     private LocalDateTime creationDate;
+
+    public Todo() {
+    }
+
+    public Todo(String text, User user) {
+        this.author = user;
+        this.text = text;
+    }
+
+    public Todo(Todo todo) {
+    }
+
+    public String getAuthorName() {
+        return author != null ? author.getName() : "NONE";
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
 
     public Long getId() {
         return id;
@@ -44,4 +73,5 @@ public class Todo {
     public void setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
     }
+
 }

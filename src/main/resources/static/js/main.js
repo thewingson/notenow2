@@ -56,7 +56,7 @@ Vue.component('todo-row', {
     props: ['todo', 'editMethod', 'todos'],
     template:
         '<div>' +
-            '<i>{{todo.id}}</i> {{todo.text}}' +
+            '<i>{{todo.id}}</i> {{todo.text}}  <strong>{{todo.authorName}}</strong>' +
         '<span style="position: absolute; right: 0;">' +
             '<input type="button" value="Edit" v-on:click="edit" />' +
             '<input type="button" value="X" v-on:click="del" />' +
@@ -89,13 +89,7 @@ Vue.component('todo-list', {
             '<todo-row v-for="todo in todos" :key="todo.id" :todo="todo" ' +
             ':editMethod="editMethod" :todos="todos"/>' +
         '</div>',
-    created: function(){
-        todoApi.get().then(result =>
-            result.json().then(data =>
-                data.forEach(todo => this.todos.push(todo))
-            )
-        )
-    },
+
     methods:{
         editMethod: function (todo) {
             this.todo = todo;
@@ -107,8 +101,23 @@ Vue.component('todo-list', {
 
 var app = new Vue({
     el: '#app',
-    template: '<todo-list :todos="todos" />',
+    template:
+        '<div>' +
+            '<div v-if="!profile">Login through the <a href="/login">Google</a></div>' +
+                '<div v-else>' +
+                '<div>{{profile.name}}&nbsp;<a href="/logout">Logout</a></div>' +
+                '<todo-list :todos="todos" />' +
+            '</div>' +
+        '</div>',
     data: {
-        todos: []
-    }
+        todos: frontendData.todos,
+        profile: frontendData.profile
+    },
+    created: function(){
+        /*todoApi.get().then(result =>
+            result.json().then(data =>
+            data.forEach(todo => this.todos.push(todo))
+            )
+        )*/
+    },
 });
