@@ -55,12 +55,14 @@ Vue.component('todo-form',{
 Vue.component('todo-row', {
     props: ['todo', 'editMethod', 'todos'],
     template:
-        '<div>' +
-            '<i>{{todo.id}}</i> {{todo.text}}  <strong>{{todo.authorName}}</strong>' +
-        '<span style="position: absolute; right: 0;">' +
-            '<input type="button" value="Edit" v-on:click="edit" />' +
-            '<input type="button" value="X" v-on:click="del" />' +
-        '</span>' +
+        '<div class="col-lg-6">' +
+            '<span style="position: relative; left: 0">' +
+                '<i>{{todo.id}}</i> {{todo.text}}  <strong>{{todo.authorName}}</strong>' +
+            '</span>' +
+            '<span style="position: absolute; right: 0;" >' +
+                '<input type="button" value="Edit" v-on:click="edit" />' +
+                '<input type="button" value="X" v-on:click="del" />' +
+            '</span>' +
         '</div>',
     methods:{
         edit: function () {
@@ -84,7 +86,7 @@ Vue.component('todo-list', {
         }
     },
     template:
-        '<div style="position: relative; width: 300px;">' +
+        '<div  >' + //style="position: relative; width: 300px;"
             '<todo-form :todos="todos" :todoAttr="todo"/>' +
             '<todo-row v-for="todo in todos" :key="todo.id" :todo="todo" ' +
             ':editMethod="editMethod" :todos="todos"/>' +
@@ -102,13 +104,17 @@ Vue.component('todo-list', {
 var app = new Vue({
     el: '#app',
     template:
-        '<div>' +
-            '<div v-if="!profile">Login through the <a href="/login">Google</a></div>' +
+    '<div class="container">' +
+        '<div class="row">' +
+            '<div class="col-lg-12" align="center">' +
+                '<div v-if="!profile">Login through the <a href="/login">Google</a></div>' +
                 '<div v-else>' +
-                '<div>{{profile.name}}&nbsp;<a href="/logout">Logout</a></div>' +
-                '<todo-list :todos="todos" />' +
+                    '<div>{{profile.name}}&nbsp;<a href="/logout">Logout</a></div>' +
+                    '<todo-list :todos="todos"/>' +
+                '</div>' +
             '</div>' +
-        '</div>',
+        '</div>' +
+    '</div>',
     data: {
         todos: frontendData.todos,
         profile: frontendData.profile
